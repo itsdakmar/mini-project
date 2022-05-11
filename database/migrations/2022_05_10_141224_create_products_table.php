@@ -15,10 +15,10 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('unique_key')->unique();
+            $table->unsignedBigInteger('unique_key');
             $table->string('product_title');
             $table->text('product_description');
-            $table->string('style');
+            $table->string('style#');
             $table->string('available_sizes');
             $table->string('brand_logo_image');
             $table->string('thumbnail_image');
@@ -47,7 +47,7 @@ class CreateProductsTable extends Migration
             $table->string('mill');
             $table->string('product_status');
             $table->string('companion_styles');
-            $table->decimal('msrp');
+            $table->string('msrp');
             $table->string('map_pricing');
             $table->string('front_model_image_url');
             $table->string('back_model_image');
@@ -56,7 +56,6 @@ class CreateProductsTable extends Migration
             $table->string('product_measurements');
             $table->string('pms_color');
             $table->string('gtin');
-            $table->timestamps();
         });
     }
 

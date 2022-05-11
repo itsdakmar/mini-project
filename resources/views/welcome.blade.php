@@ -6,15 +6,13 @@
 
         <title>Mini Project</title>
 
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-        <script src="{{ asset('js/app.js') }}"></script>
-        <script src="https://unpkg.com/flowbite@1.4.5/dist/flowbite.js"></script>
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet" defer>
+        @livewireStyles
 
     </head>
     <body class="antialiased">
         <div class="relative flex items-top justify-center min-h-screen bg-gray-200 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-6xl w-full sm:px-6 lg:px-8">
                 <div class="mb-8">
                     <form action="{{ route('upload') }}" method="post" enctype="multipart/form-data">
                         @csrf
@@ -25,6 +23,10 @@
                                 Upload
                             </button>
                         </div>
+
+                        @error('file')
+                        <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </form>
                 </div>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -43,27 +45,33 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                Apple MacBook Pro 17"
-                            </th>
-                            <td class="px-6 py-4 w-64">
-                                Sliver
-                            </td>
-                            <td class="px-6 py-4 w-96">
-                                <div class="flex items-center space-x-2">
-                                    <span class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">Green</span>
-
-                                    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 45%"></div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                        @forelse($data as $item)
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                                    <p>{{ $item->created_at->format('d-m-Y h:i:s a') }}</p>
+                                    <p>({{ $item->created_at->diffForHumans() }})</p>
+                                </th>
+                                <td class="px-6 py-4 w-64">
+                                    {{ $item->file_name }}
+                                </td>
+                                <td class="px-6 py-4 w-1/2">
+                                    <livewire:progress-bar :bus-id="$item->bus_id"/>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 py-8">
+                                <td colspan="3" class="text-center">No csv file uploaded.</td>
+                            </tr>
+                        @endforelse
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+
+        <script src="{{ asset('js/app.js') }}"></script>
+        <script src="https://unpkg.com/flowbite@1.4.5/dist/flowbite.js"></script>
+        @livewireScripts
+
     </body>
 </html>

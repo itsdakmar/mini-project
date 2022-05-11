@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome', ['data' => \App\Models\ProgressProductUpload::all()]);
 });
 
 Route::post('/upload', [\App\Http\Actions\UploadCsv::class , 'handle'])->name('upload');
+//Route::post('/upload', [\App\Http\Actions\UploadCsvOptimized::class , 'handle'])->name('upload');
