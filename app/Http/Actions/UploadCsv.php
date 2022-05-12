@@ -11,7 +11,7 @@ class UploadCsv
     public function handle(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:csv',
+            'file' => 'required|mimes:csv,txt',
         ]);
 
         $file = $request->file('file');
